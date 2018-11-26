@@ -20,7 +20,7 @@ vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
 print("[INFO] clustering...")
-clt = DBSCAN(metric="euclidean", n_jobs=-1)
+clt = DBSCAN(min_samples=8, metric='euclidean', eps= 0.45, n_jobs=-1)
 
 # start the FPS throughput estimator
 fps = FPS().start()
