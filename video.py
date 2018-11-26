@@ -13,24 +13,18 @@ import time
 import cv2
 import os
 
-
-
-print("[INFO] starting video stream...")
-vs = VideoStream(src=0).start()
-time.sleep(2.0)
-
 print("[INFO] clustering...")
 clt = DBSCAN(metric="euclidean", n_jobs=-1)
 
-# start the FPS throughput estimator
-fps = FPS().start()
+video_capture = cv2.VideoCapture("./videoplayback.mp4")
 
 encodings = []
+frames = []
+frame_count = 0
 
-# loop over frames from the video file stream
-while True:
-    # grab the frame from the threaded video stream
-    frame = vs.read()
+while video_capture.isOpened():
+    # Grab a single frame of video
+    ret, frame = video_capture.read()
     frame = imutils.resize(frame, width=600)
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -51,11 +45,6 @@ while True:
         cv2.rectangle(frame, (right,top), (left, bottom), (0, 0, 255), 2)
         cv2.putText(frame, text, (right,top),
 				cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-
-
-
-    # update the FPS counter
-    fps.update()
 
     # show the output frame
     cv2.imshow("Frame", frame)
