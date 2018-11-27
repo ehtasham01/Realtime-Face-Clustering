@@ -26,6 +26,7 @@ while video_capture.isOpened():
 
     # Grab a single frame of video
     ret, frame = video_capture.read()
+    frame = imutils.resize(frame, width=600)
     
     frame_count += 1
     if(frame_count%24 == 0):
